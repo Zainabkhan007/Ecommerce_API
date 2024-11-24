@@ -1,0 +1,21 @@
+
+services:
+  db:
+    image: nouchka/sqlite3:latest
+    container_name: db_two
+    volumes:
+      - ./data/db:/root/db
+    environment:
+      SQLITE3_DB: db.sqlite3  # Updated format
+
+  web:
+    build:
+      context: .
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: ecommerce_api
+    volumes:
+      - .:/ecommerce_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
